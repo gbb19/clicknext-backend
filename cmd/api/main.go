@@ -6,6 +6,7 @@ import (
 	"clicknext-backend/internal/delivery/http/handlers"
 	"clicknext-backend/internal/delivery/routes"
 	"clicknext-backend/internal/infrastructure/database"
+	"clicknext-backend/internal/utils"
 	"fmt"
 	"log"
 
@@ -19,6 +20,12 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error loading configuration: %v", err)
 	}
+
+	utils.SetJWTConfig(
+		cfg.JWT.Secret,
+		cfg.JWT.AccessTokenExp,
+		cfg.JWT.RefreshTokenExp,
+	)
 
 	db, err := database.NewGromDB(cfg)
 	if err != nil {
