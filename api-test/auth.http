@@ -1,0 +1,28 @@
+### login testuesr
+POST http://localhost:8080/api/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "test123",
+  "password": "test1234"
+}
+
+> {%
+    client.global.set("token1", response.body.token)
+%}
+
+### Register test123
+POST http://localhost:8080/api/auth/register
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "test@gmail.com",
+  "first_name": "firsttest",
+  "last_name": "lasttest",
+  "password": "test1234",
+  "username": "test123"
+}
+
+

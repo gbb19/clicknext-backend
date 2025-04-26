@@ -1,0 +1,4 @@
+### Get Uesr By ID
+GET {{ Host }}/api/users/1
+Accept: application/json
+Authorization: Bearer {{ token1 }}

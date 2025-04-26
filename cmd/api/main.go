@@ -8,6 +8,7 @@ import (
 	"clicknext-backend/internal/infrastructure/database"
 	"clicknext-backend/internal/utils"
 	"fmt"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"log"
 
 	fiberSwagger "github.com/swaggo/fiber-swagger"
@@ -45,6 +46,12 @@ func main() {
 	fmt.Println("Database connection established successfully!")
 
 	app := fiber.New()
+	app.Use(cors.New(cors.Config{
+		AllowOrigins:     "http://localhost:3000, http://0.0.0.0:3000",
+		AllowMethods:     "GET,POST,PUT,PATCH,DELETE",
+		AllowHeaders:     "Content-Type, Authorization",
+		AllowCredentials: true,
+	}))
 
 	docs.SwaggerInfo.Title = "ClickNext Backend API"
 	docs.SwaggerInfo.Description = "This is the API documentation for ClickNext backend service."
