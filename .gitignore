@@ -44,6 +44,9 @@ Thumbs.db
 *.db
 *.sqlite
 
+# redoc
+redoc-static.html
+
 # Logs
 *.log
 logs/
