@@ -8,6 +8,7 @@ import (
 type ColumnResponse struct {
 	ColumnID  uint      `json:"column_id"`
 	Name      string    `json:"name"`
+	Position  int       `json:"position"`
 	Color     string    `json:"color"`
 	CreatedBy uint      `json:"created_by"`
 	BoardID   uint      `json:"board_id"`
@@ -36,6 +37,7 @@ func FromColumnDomain(c *domain.Column) *ColumnResponse {
 		ColumnID:  c.ColumnID,
 		Name:      c.Name,
 		Color:     c.Color,
+		Position:  c.Position,
 		CreatedBy: c.CreatedBy,
 		BoardID:   c.BoardID,
 		CreatedAt: c.CreatedAt,
