@@ -34,8 +34,10 @@ func (r *AssigneeTaskRepository) UnassignTask(assigneeID, taskID uint) error {
 
 func (r *AssigneeTaskRepository) GetAssigneesByTaskID(taskID uint) ([]*domain.AssigneeTask, error) {
 	var assignees []*domain.AssigneeTask
-	if err := r.db.Preload("Assignee").
-		Where("task_id = ?", taskID).
+	if err := r.db.
+		Joins("JOIN users ON assignee_tasks.assignee_id = users.user_id").
+		Joins("JOIN tasks ON assignee_tasks.task_id = tasks.task_id").
+		Where("assignee_tasks.task_id = ?", taskID).
 		Find(&assignees).Error; err != nil {
 		return nil, err
 	}
@@ -44,8 +46,10 @@ func (r *AssigneeTaskRepository) GetAssigneesByTaskID(taskID uint) ([]*domain.As
 
 func (r *AssigneeTaskRepository) GetTasksByAssigneeID(assigneeID uint) ([]*domain.AssigneeTask, error) {
 	var tasks []*domain.AssigneeTask
-	if err := r.db.Preload("Task").
-		Where("assignee_id = ?", assigneeID).
+	if err := r.db.
+		Joins("JOIN tasks ON assignee_tasks.task_id = tasks.task_id").
+		Joins("JOIN users ON assignee_tasks.assignee_id = users.user_id").
+		Where("assignee_tasks.assignee_id = ?", assigneeID).
 		Find(&tasks).Error; err != nil {
 		return nil, err
 	}

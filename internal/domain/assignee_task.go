@@ -12,6 +12,6 @@ type AssigneeTask struct {
 	UpdatedAt      time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 
 	// Associations
-	Assignee User `gorm:"foreignKey:AssigneeID;references:UserID" json:"assignee"`
-	Task     Task `gorm:"foreignKey:TaskID;references:TaskID" json:"task"`
+	User User `gorm:"foreignKey:AssigneeID;references:UserID" json:"user"`
+	Task Task `gorm:"foreignKey:TaskID;references:TaskID" json:"task"`
 }
