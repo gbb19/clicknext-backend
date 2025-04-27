@@ -31,7 +31,6 @@ func NewTaskHandler(taskUsecase *usecase.TaskUsecase) *TaskHandler {
 func (h *TaskHandler) CreateTask(c *fiber.Ctx) error {
 	// Get userID from Locals
 	userID := c.Locals("userID").(uint)
-
 	// Parse request body
 	var taskRequest dto.TaskCreateRequest
 	if err := c.BodyParser(&taskRequest); err != nil {
