@@ -9,8 +9,14 @@ import (
 )
 
 type Handler struct {
-	UserHandler *handler.UserHandler
-	AuthHandler *handler.AuthHandler
+	UserHandler         *handler.UserHandler
+	AuthHandler         *handler.AuthHandler
+	BoardHandler        *handler.BoardHandler
+	BoardMemmberHandler *handler.BoardMemberHandler
+	InviteHandler       *handler.InviteHandler
+	ColumnHandler       *handler.ColumnHandler
+	TaskHandler         *handler.TaskHandler
+	AssigneeTaskHandler *handler.AssigneeTaskHandler
 }
 
 func NewHandler(db *gorm.DB) *Handler {
@@ -21,8 +27,38 @@ func NewHandler(db *gorm.DB) *Handler {
 	authUsecase := usecase.NewAuthUseCase(userRepo)
 	authHandler := handler.NewAuthHandler(authUsecase)
 
+	boardRepo := postgres.NewBoardRepository(db)
+	boardUsecase := usecase.NewBoardUsecase(boardRepo)
+	boardHandler := handler.NewBoardHandler(boardUsecase)
+
+	boardMemberRepo := postgres.NewBoardMemberRepository(db)
+	boardMemberUsecase := usecase.NewBoardMemberUsecase(boardMemberRepo)
+	boardMemberHandler := handler.NewBoardMemberHandler(boardMemberUsecase)
+
+	inviteRepo := postgres.NewInviteRepository(db)
+	inviteUsecase := usecase.NewInviteUsecase(inviteRepo, boardMemberRepo)
+	inviteHandler := handler.NewInviteHandler(inviteUsecase)
+
+	columnRepo := postgres.NewColumnRepository(db)
+	columnUsecase := usecase.NewColumnUsecase(columnRepo)
+	columnHandler := handler.NewColumnHandler(columnUsecase)
+
+	taskRepo := postgres.NewTaskRepository(db)
+	taskUsecase := usecase.NewTaskUsecase(taskRepo)
+	taskHandler := handler.NewTaskHandler(taskUsecase)
+
+	assigneeTaskRepo := postgres.NewAssigneeTaskRepository(db)
+	assigneeTaskUsecase := usecase.NewAssigneeTaskUsecase(assigneeTaskRepo)
+	assigneeTaskHandler := handler.NewAssigneeTaskHandler(assigneeTaskUsecase)
+
 	return &Handler{
-		UserHandler: userHandler,
-		AuthHandler: authHandler,
+		UserHandler:         userHandler,
+		AuthHandler:         authHandler,
+		BoardHandler:        boardHandler,
+		BoardMemmberHandler: boardMemberHandler,
+		InviteHandler:       inviteHandler,
+		ColumnHandler:       columnHandler,
+		TaskHandler:         taskHandler,
+		AssigneeTaskHandler: assigneeTaskHandler,
 	}
 }
