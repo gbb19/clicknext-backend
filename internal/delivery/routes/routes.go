@@ -59,4 +59,13 @@ func RegisterRoutes(app *fiber.App, h *handlers.Handler) {
 	assignment.Delete("/", h.AssigneeTaskHandler.UnassignTask)
 	assignment.Get("/task", h.AssigneeTaskHandler.GetAssigneesByTaskID)
 	assignment.Get("/assignee", h.AssigneeTaskHandler.GetTasksByAssigneeID)
+
+	tag := api.Group("/tags")
+	tag.Use(middleware.Protected())
+	tag.Post("/", h.TagHandler.CreateTag)
+	tag.Get("/:id", h.TagHandler.GetTagByID)
+	tag.Get("/", h.TagHandler.GetAllTags)
+	tag.Get("/by-user", h.TagHandler.GetTagsByUser)
+	tag.Put("/:id", h.TagHandler.UpdateTag)
+	tag.Delete("/:id", h.TagHandler.DeleteTag)
 }

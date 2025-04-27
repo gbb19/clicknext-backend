@@ -17,6 +17,7 @@ type Handler struct {
 	ColumnHandler       *handler.ColumnHandler
 	TaskHandler         *handler.TaskHandler
 	AssigneeTaskHandler *handler.AssigneeTaskHandler
+	TagHandler          *handler.TagHandler
 }
 
 func NewHandler(db *gorm.DB) *Handler {
@@ -51,6 +52,10 @@ func NewHandler(db *gorm.DB) *Handler {
 	assigneeTaskUsecase := usecase.NewAssigneeTaskUsecase(assigneeTaskRepo)
 	assigneeTaskHandler := handler.NewAssigneeTaskHandler(assigneeTaskUsecase)
 
+	tagRepo := postgres.NewTagRepository(db)
+	tagUsecase := usecase.NewTagUsecase(tagRepo)
+	tagHandler := handler.NewTagHandler(tagUsecase)
+
 	return &Handler{
 		UserHandler:         userHandler,
 		AuthHandler:         authHandler,
@@ -60,5 +65,6 @@ func NewHandler(db *gorm.DB) *Handler {
 		ColumnHandler:       columnHandler,
 		TaskHandler:         taskHandler,
 		AssigneeTaskHandler: assigneeTaskHandler,
+		TagHandler:          tagHandler,
 	}
 }
