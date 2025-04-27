@@ -20,7 +20,7 @@ func (r *TagRepository) CreateTag(tag *domain.Tag) error {
 
 func (r *TagRepository) GetTagByID(id uint) (*domain.Tag, error) {
 	var tag domain.Tag
-	if err := r.db.Preload("CreatedByUser").First(&tag, id).Error; err != nil {
+	if err := r.db.First(&tag, id).Error; err != nil {
 		return nil, err
 	}
 	return &tag, nil
@@ -28,7 +28,7 @@ func (r *TagRepository) GetTagByID(id uint) (*domain.Tag, error) {
 
 func (r *TagRepository) GetAllTags() ([]*domain.Tag, error) {
 	var tags []*domain.Tag
-	if err := r.db.Preload("CreatedByUser").Find(&tags).Error; err != nil {
+	if err := r.db.Find(&tags).Error; err != nil {
 		return nil, err
 	}
 	return tags, nil
