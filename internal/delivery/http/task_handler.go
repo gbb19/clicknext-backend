@@ -3,6 +3,7 @@ package http
 import (
 	"clicknext-backend/internal/delivery/http/dto"
 	"clicknext-backend/internal/usecase"
+	"log"
 	"strconv"
 	"time"
 
@@ -148,6 +149,13 @@ func (h *TaskHandler) UpdateTask(c *fiber.Ctx) error {
 	if !updateRequest.StartDate.IsZero() {
 		task.StartDate = updateRequest.StartDate
 	}
+	log.Println(task.TaskID)
+	log.Println(task.Position)
+	log.Println(task.ColumnID)
+	log.Println(task.Name)
+	log.Println(task.StartDate)
+	log.Println(task.DueDate)
+	log.Println(task.CreatedBy)
 
 	// Save the updated task
 	if err := h.taskUsecase.UpdateTask(task); err != nil {

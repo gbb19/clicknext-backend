@@ -11,5 +11,5 @@ type Tag struct {
 	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 
 	// Associations
-	CreatedByUser User `gorm:"foreignKey:CreatedBy;references:UserID" json:"created_by_user"`
+	User User `gorm:"foreignKey:CreatedBy;references:UserID"`
 }

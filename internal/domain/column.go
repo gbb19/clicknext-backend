@@ -15,6 +15,6 @@ type Column struct {
 	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 
 	// Associations
-	CreatedByUser User  `gorm:"foreignKey:CreatedBy;references:UserID" json:"created_by_user"`
-	Board         Board `gorm:"foreignKey:BoardID;references:BoardID" json:"board"`
+	User  User  `gorm:"foreignKey:CreatedBy;references:UserID"`
+	Board Board `gorm:"foreignKey:BoardID;references:BoardID" json:"board"`
 }

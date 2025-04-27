@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"clicknext-backend/internal/domain"
+	"log"
 
 	"gorm.io/gorm"
 )
@@ -43,7 +44,11 @@ func (r *TaskRepository) CreateTask(task *domain.Task) error {
 
 func (r *TaskRepository) GetTaskByID(id uint) (*domain.Task, error) {
 	var task domain.Task
-	if err := r.db.Preload("CreatedByUser").Preload("Column").First(&task, id).Error; err != nil {
+	if err := r.db.
+		Joins("JOIN users ON tasks.created_by = users.user_id").
+		Joins("JOIN columns ON tasks.column_id = columns.column_id").
+		Where("tasks.task_id = ?", id).
+		First(&task).Error; err != nil {
 		return nil, err
 	}
 	return &task, nil
@@ -51,14 +56,23 @@ func (r *TaskRepository) GetTaskByID(id uint) (*domain.Task, error) {
 
 func (r *TaskRepository) GetTasksByColumnID(columnID uint) ([]*domain.Task, error) {
 	var tasks []*domain.Task
-	if err := r.db.Where("column_id = ?", columnID).Order("position ASC").Find(&tasks).Error; err != nil {
+	if err := r.db.
+		Joins("JOIN users ON tasks.created_by = users.user_id").
+		Joins("JOIN columns ON tasks.column_id = columns.column_id").
+		Where("tasks.column_id = ?", columnID).
+		Order("tasks.position ASC").
+		Find(&tasks).Error; err != nil {
 		return nil, err
 	}
 	return tasks, nil
 }
 
 func (r *TaskRepository) UpdateTask(task *domain.Task) error {
-	return r.db.Save(task).Error
+	err := r.db.Save(task).Error
+	if err != nil {
+		log.Println("Error updating task:", err)
+	}
+	return err
 }
 
 func (r *TaskRepository) DeleteTask(id uint) error {

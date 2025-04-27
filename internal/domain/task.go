@@ -16,6 +16,6 @@ type Task struct {
 	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 
 	// Associations
-	CreatedByUser User   `gorm:"foreignKey:CreatedBy;references:UserID" json:"created_by_user"`
-	Column        Column `gorm:"foreignKey:ColumnID;references:ColumnID" json:"column"`
+	User   User   `gorm:"foreignKey:CreatedBy;references:UserID"`
+	Column Column `gorm:"foreignKey:ColumnID;references:ColumnID" json:"column"`
 }
